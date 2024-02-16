@@ -63,6 +63,7 @@ function eliminarItemCarrito(event){
     buttonClicked.parentElement.remove();
 
     countProduct--;
+    amountProduct.innerHTML = countProduct;
 
     //Actualizamos el total del carrito una vez que hemos eliminado un item
     actualizarTotalCarrito();
@@ -210,10 +211,6 @@ function pagarClicked(){
     var carritoItems = document.getElementsByClassName('carrito-items')[0];
     while (carritoItems.hasChildNodes()){
         carritoItems.removeChild(carritoItems.firstChild)
-    }
-    actualizarTotalCarrito();
-    /* ocultarCarrito(); */
-}
     }
     actualizarTotalCarrito();
     /* ocultarCarrito(); */
