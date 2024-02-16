@@ -118,10 +118,8 @@ function agregarAlCarritoClicked(event){
     var button = event.target;
     var item = button.parentElement;
     var titulo = item.getElementsByClassName('titulo-item')[0].innerText;
-    console.log(titulo);
     var precio = item.getElementsByClassName('precio-item')[0].innerText;
-    var imagenSrc = item.getElementsByClassName("img-item")[0].src;
-    console.log(imagenSrc);
+    var imagenSrc = item.parentElement.getElementsByClassName("img-item")[0].src; // the "parentElement" is the container of both elements (the image and the description)
 
     /* agregarItemAlCarrito(titulo, precio, imagenSrc);
 
