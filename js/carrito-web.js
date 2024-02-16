@@ -4,6 +4,18 @@ if(document.readyState == 'loading'){
     ready();
 }
 
+// Abrir y cerrar carrito
+const carritoClick = document.querySelector('.carrito-btn');
+const abrirCerrarCarrito = document.querySelector('.carrito');
+
+carritoClick.addEventListener("click", () => {
+    abrirCerrarCarrito.classList.toggle('carrito-opacity');
+})
+
+// Cant en el carrito
+let amountProduct = document.querySelector('.cuenta-carrito');
+let countProduct = 0;
+
 function ready() {
 
     //Agregremos funcionalidad a los botones eliminar del carrito
@@ -11,6 +23,11 @@ function ready() {
     for(var i=0;i < botonesEliminarItem.length; i++){
         var button = botonesEliminarItem[i];
         button.addEventListener('click', eliminarItemCarrito);
+
+    if (botonesEliminarItem.length === 0) {
+        amountProduct.innerHTML = 0;
+    };
+
     }
 
     //Agrego funcionalidad al boton sumar cantidad
@@ -36,12 +53,17 @@ function ready() {
 
     //Agregamos funcionalidad al botón comprar
     document.getElementsByClassName('btn-pagar')[0].addEventListener('click',pagarClicked)
+
+
 };
 
 //Elimino el item seleccionado del carrito
 function eliminarItemCarrito(event){
     var buttonClicked = event.target;
     buttonClicked.parentElement.remove();
+
+    countProduct--;
+
     //Actualizamos el total del carrito una vez que hemos eliminado un item
     actualizarTotalCarrito();
 
@@ -118,29 +140,20 @@ function agregarAlCarritoClicked(event){
     var button = event.target;
     var item = button.parentElement;
     var titulo = item.getElementsByClassName('titulo-item')[0].innerText;
-    var precio = item.getElementsByClassName('precio-item')[0].innerText;
-    var imagenSrc = item.parentElement.getElementsByClassName("img-item")[0].src; // the "parentElement" is the container of both elements (the image and the description)
-
-    /* agregarItemAlCarrito(titulo, precio, imagenSrc);
-
-    hacerVisibleCarrito(); */
-}
-
-/* function agregarAlCarritoClicked(event) {
-    var button = event.target;
-    var item = button.parentElement;
-    var titulo = item.getElementsByClassName('titulo-item')[0].innerText;
     console.log(titulo)
     var precio = item.getElementsByClassName('precio-item')[0].innerText;
-    var imagenSrc = item.getElementsByClassName('img-item')[0].src
+    var imagenSrc = item.parentElement.getElementsByClassName("img-item")[0].src; // the "parentElement" is the container of both elements (the image and the description)
     console.log(imagenSrc)
-    
 
-    agregarItemAlCarrito(titulo, precio, imagenSrc)
-} */
+    countProduct++;
+
+    agregarItemAlCarrito(titulo, precio, imagenSrc);
+
+    /* hacerVisibleCarrito(); */
+}
 
 //Funciòn que agrega un item al carrito
-/* function agregarItemAlCarrito(titulo, precio, imagenSrc){
+function agregarItemAlCarrito(titulo, precio, imagenSrc){
     var item = document.createElement('div');
     item.classList.add = ('item');
     var itemsCarrito = document.getElementsByClassName('carrito-items')[0];
@@ -172,9 +185,10 @@ function agregarAlCarritoClicked(event){
         </div>
     `
     item.innerHTML = itemCarritoContenido;
-    itemsCarrito.append(item); */
+    itemsCarrito.append(item);
+    amountProduct.innerHTML = countProduct;
 
-    /* //Agregamos la funcionalidad eliminar al nuevo item
+    //Agregamos la funcionalidad eliminar al nuevo item
      item.getElementsByClassName('btn-eliminar')[0].addEventListener('click', eliminarItemCarrito);
 
     //Agregmos al funcionalidad restar cantidad del nuevo item
@@ -183,11 +197,11 @@ function agregarAlCarritoClicked(event){
 
     //Agregamos la funcionalidad sumar cantidad del nuevo item
     var botonSumarCantidad = item.getElementsByClassName('sumar-cantidad')[0];
-    botonSumarCantidad.addEventListener('click',sumarCantidad); */
+    botonSumarCantidad.addEventListener('click',sumarCantidad);
 
     //Actualizamos total
-    /* actualizarTotalCarrito();
-}; */
+    actualizarTotalCarrito();
+};
 
 //Eliminamos todos los elementos del carrito y lo ocultamos
 function pagarClicked(){
@@ -196,6 +210,10 @@ function pagarClicked(){
     var carritoItems = document.getElementsByClassName('carrito-items')[0];
     while (carritoItems.hasChildNodes()){
         carritoItems.removeChild(carritoItems.firstChild)
+    }
+    actualizarTotalCarrito();
+    /* ocultarCarrito(); */
+}
     }
     actualizarTotalCarrito();
     /* ocultarCarrito(); */
